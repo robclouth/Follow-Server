@@ -2,6 +2,9 @@ var app = require("express")();
 var http = require("http").Server(app);
 var io = require("socket.io")(http);
 
+app.set("port", process.env.PORT || 3000);
+app.use(express.static(__dirname + "/public"));
+
 app.get("/", function(req, res) {
   res.sendfile("index.html");
 });
@@ -50,6 +53,6 @@ io.on("connection", function(client) {
   });
 });
 
-http.listen(3000, function() {
-  console.log("listening on 3000");
+http.listen(app.get("port"), function() {
+  console.log("Running on port " + app.get("port"));
 });
